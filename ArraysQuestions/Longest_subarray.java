@@ -1,36 +1,39 @@
 package DSA_Quest.ArraysQuestions;
 
+import java.util.Arrays;
+
 public class Longest_subarray {
-    static int findLength(int[] arr, int n)
-    {
-        // To store the maximum number
-        // present in the array
-        int x = 0;
+ static int gcd(int a,int b){
+     if(b==0){
+         return a;
+     }
+    return gcd(b,a%b);
 
-        // Finding the maximum element
-        for (int i = 0; i < n; i++)
-            x = Math.max(x, arr[i]);
+ }
+ static int[] find_maxGCD(int[]arr){
+     int MAX_length=0;
+     int MAX_GCD=0;
+     for(int i=0;i<arr.length;i++){
+        int current_gcd=arr[i];
+        for(int j=i;j<arr.length;j++){
+            current_gcd=gcd(current_gcd,arr[j]);
 
-        int ans = 0, count = 0;
-
-        for (int i = 0; i < n; i++) {
-            if (arr[i] == x) {
-                count++;
-                ans = Math.max(ans, count);
-            } else {
-                count = 0;
+            if(current_gcd>MAX_GCD) {
+                MAX_GCD=current_gcd;
+                MAX_length=j-i+1;
+            }else if(current_gcd==MAX_GCD){
+                MAX_length=Math.max(MAX_length,j-i+1);
+            }
+            if(current_gcd==1){
+                break;
             }
         }
-
-        return ans;
-    }
-
-    // Driver code
-    public static void main(String[] args)
-    {
-        int arr[] = { 2, 4, 6, 8, 16, 32 };
-        int n = arr.length;
-
-        System.out.println(findLength(arr, n));
+     }
+     return new int[]{MAX_GCD,MAX_length};
+ }
+ 
+ public static void main(String[] args) {
+        int[] arr={1, 2, 2};
+        System.out.println(Arrays.toString(find_maxGCD(arr)));
     }
 }
